@@ -1,6 +1,14 @@
 
+/* 
+Project: L02 Group Work
+Purpose Details: Threading Deadlock
+Course: IST 411
+Author: Ahmed Metwoali, Alexa McInvaille, Elyse Swider, Ryan Waters
+Date Developed: 5/27/21
+Last Date Changed: 5/27/21
+Revision: 1
+ */
 package bankdeadlock;
-
 
 public class BankDeadlock {
 
@@ -8,34 +16,30 @@ public class BankDeadlock {
     public static final double INITIAL_BALANCE = 1000;
     public static final double MAX_AMOUNT = 1000;
     public static final int DELAY = 10;
-   
+
     public static void main(String[] args) {
-        Bank bank = new Bank(NACCOUNTS, INITIAL_BALANCE) ;
-            for (int i = 0; i < NACCOUNTS; i++)
-            {
-                int fromAccount = i;
-                Runnable r = () ->
-                {
-                    try 
-                    {
-                        while (true)
-                        {
-                            int toAccount = (int)(bank.size() * Math.random());
-                            double amount = MAX_AMOUNT * Math.random();
-                            bank.transfer(toAccount, fromAccount, amount);
-                        }
-                        
-                    } catch (InterruptedException ex)
-                    {
-                        
+        Bank bank = new Bank(NACCOUNTS, INITIAL_BALANCE);
+        for (int i = 0; i < NACCOUNTS; i++) {
+            int fromAccount = i;
+            Runnable r = ()
+                    -> {
+                try {
+                    while (true) {
+                        int toAccount = (int) (bank.size() * Math.random());
+                        double amount = MAX_AMOUNT * Math.random();
+                        bank.transfer(toAccount, fromAccount, amount);
                     }
-                       
-                };
-                
-                Thread t = new Thread(r);
-                t.start();
-            }
-        
+
+                } catch (InterruptedException ex) {
+
+                }
+
+            };
+
+            Thread t = new Thread(r);
+            t.start();
+        }
+
     }
-    
+
 }
